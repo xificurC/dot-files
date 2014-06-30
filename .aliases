@@ -1,0 +1,2 @@
+# alias emc='emacsclient -c -a ""'
+alias clip='xclip -o -selection clipboard'

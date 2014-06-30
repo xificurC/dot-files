@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+workdir='/home/bubo/code/dot-files/'
+
+while read line; do
+    cp "$line" "$workdir"
+done < "$workdir"/files-monitored
