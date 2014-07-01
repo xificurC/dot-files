@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+
+workdir='/home/bubo/code/dot-files'
+
+while read line; do
+    filename="${workdir}/${line##*/}"
+    if ! diff -q "$line" "$filename" &>/dev/null; then
+        emc --eval "(ediff \"${line}\" \"${filename}\")"
+    fi
+done < "${workdir}/files-monitored"

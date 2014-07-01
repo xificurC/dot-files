@@ -1,4 +1,4 @@
-alias emc='emc -nw'
+# alias emc='emacsclient -c -a ""'
 alias clip='xclip -o -selection clipboard'
 alias pubip='curl -s curlmyip.com'
 alias sendip='pubip | msmtp xificurC@gmail.com'
