@@ -15,7 +15,7 @@
 
 (global-set-key (kbd "C-c a") 'copy-whole-buffer)
 
-;; marmalade
+;; get package and add marmalade and melpa
 (require 'package)
 (add-to-list 'package-archives
 	     '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -39,6 +39,25 @@
 (global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
 (require 'evil-visualstar) ;; v text and search with * and #
+;; better default states for some modes
+(require 'cl)
+(loop for (mode . state) in '((inferior-emacs-lisp-mode . emacs)
+                              (nrepl-mode . insert)
+                              (pylookup-mode . emacs)
+                              (comint-mode . normal)
+                              (shell-mode . insert)
+                              (git-commit-mode . insert)
+                              (git-rebase-mode . emacs)
+                              (term-mode . emacs)
+                              (help-mode . emacs)
+                              (helm-grep-mode . emacs)
+                              (grep-mode . emacs)
+                              (bc-menu-mode . emacs)
+                              (magit-branch-manager-mode . emacs)
+                              (rdictcc-buffer-mode . emacs)
+                              (dired-mode . emacs)
+                              (wdired-mode . normal))
+      do (evil-set-initial-state mode state))
 
 ;; expand region
 (require 'expand-region)
@@ -50,11 +69,12 @@
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 
-;; auto complete
+;; auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
 
 ;; ido, not helm pleae
+(require 'ido)
 (ido-mode)
 (ido-everywhere 1)
 (setq ido-enable-flex-matching t) ;; fuzzy matching
@@ -71,10 +91,7 @@
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'slime-repl-mode))
 
-;; solarized dark color scheme
-;; (load-theme 'solarized-dark t)
-
-;; using zenburn instead
+;; using zenburn
 (load-theme 'zenburn t)
 
 ;; magit
@@ -264,16 +281,3 @@
       (concat (number-to-string (+ 12 (string-to-number hours))) ":" minutes))
      (t
       (concat hours ":" minutes)))))
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(send-mail-function (quote smtpmail-send-it)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
