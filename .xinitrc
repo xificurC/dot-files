@@ -13,7 +13,8 @@ fi
 
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
-# exec gnome-session
+exec gnome-session
 # exec startkde
-exec startxfce4
+# exec startxfce4
+# exec enlightenment_start
 # ...or the Window Manager of your choice

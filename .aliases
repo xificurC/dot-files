@@ -2,3 +2,7 @@
 alias clip='xclip -o -selection clipboard'
 alias pubip='curl -s curlmyip.com'
 alias sendip='pubip | msmtp xificurC@gmail.com'
+alias gl='git log --oneline --decorate --color --graph'
+alias gc='git commit -vam'
+alias gp='git push -u origin master'
+alias gu='git pull origin'

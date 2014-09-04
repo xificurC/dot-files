@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh installation.
-export ZSH=$HOME/.oh-my-zsh
-export EDITOR=emc
+export ZSH="$HOME"/.oh-my-zsh
+export EDITOR=/usr/local/bin/emc
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -28,8 +28,8 @@ ZSH_THEME="robbyrussell"
 # Uncomment the following line to disable auto-setting terminal title.
 # DISABLE_AUTO_TITLE="true"
 
-# Uncomment the following line to disable command auto-correction.
-# DISABLE_CORRECTION="true"
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
@@ -56,7 +56,7 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl:${HOME}/bin"
+export PATH=$HOME/.cabal/bin:$HOME/bin:/usr/local/bin:$PATH
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -74,3 +74,15 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/core_perl:${HOME}/
 
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
+
+function subrename {
+    local dir movie sub
+    [[ $# -eq 1 ]] && dir=(${1%/}) || dir=(.)
+    movie=($dir/*.(avi|mkv|mp4))
+    sub=($dir/*.(srt|sub))
+    if [[ ${#movie} -eq 1 ]] && [[ ${#sub} -eq 1 ]]; then
+        mv $sub ${movie%.*}.${sub##*.}
+    else
+        echo "Too many movie or subtitle file matches." >&2
+    fi
+}

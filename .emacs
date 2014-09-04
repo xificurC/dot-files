@@ -1,4 +1,4 @@
-;local stuff
+;; local stuff
 (defalias 'yes-or-no-p 'y-or-n-p)
 (defalias 'sniff 'buffer-substring-no-properties)
 (tool-bar-mode -1)
@@ -7,6 +7,20 @@
 (column-number-mode 1)
 (scroll-bar-mode -1)
 (global-hl-line-mode)
+
+;; setup correct copy-paste behavior
+(setq x-select-enable-clipboard t)
+(setq x-select-enable-primary t)
+(setq mouse-drag-copy-region t)
+
+;; cask?
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
+
+;; erc
+(setq erc-autojoin-channels-alist
+      '(("freenode.net" "#emacs" "#bash" "#haskell" "#haskell-beginners"
+         "#lisp" "#archlinux")))
 
 (defun copy-whole-buffer ()
   "Copy the whole buffer to the kill ring."
@@ -80,6 +94,17 @@
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 
+;; multiple cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(define-key evil-normal-state-map (kbd "C->") 'mc/mark-next-like-this)
+(define-key evil-normal-state-map (kbd "C-<") 'mc/mark-previous-like-this)
+(define-key evil-normal-state-map (kbd "C-:") 'mc/mark-all-like-this)
+(define-key evil-normal-state-map (kbd "C-\"") 'mc/mark-all-in-region-regexp)
+
+;; align on regexp binding
+(define-key evil-normal-state-map (kbd "Q") 'align-regexp)
+
 ;; auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
@@ -129,6 +154,17 @@
 ;; switch-window
 (require 'switch-window)
 (evil-leader/set-key "o" 'switch-window)
+
+;; haskell-mode
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+
+;; flycheck
+(require 'flycheck)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+(eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 ;; cc mode
 (require 'cc-mode)
