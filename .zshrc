@@ -12,6 +12,7 @@ ZSH_THEME="robbyrussell"
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 [ -f $HOME/.aliases ] && . ~/.aliases
+[ -f $HOME/.funcs ] && . ~/.funcs
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
