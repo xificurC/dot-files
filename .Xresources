@@ -63,7 +63,7 @@ URxvt*color6: #93E0E3
 URxvt*color14: #93E0E3
 !! white dark/light
 URxvt*color7: #DCDCCC
-URxvt*color15: #FFFFFF 
+URxvt*color15: #FFFFFF
 
 ! To only apply colors to your terminal, for example, prefix
 ! the color assignment statement with its name. Example:

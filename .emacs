@@ -7,6 +7,7 @@
 (column-number-mode 1)
 (scroll-bar-mode -1)
 (global-hl-line-mode)
+(push (expand-file-name "~/.cabal/bin/") exec-path)
 
 ;; setup correct copy-paste behavior
 (setq x-select-enable-clipboard t)
