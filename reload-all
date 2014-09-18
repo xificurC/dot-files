@@ -1,7 +1,12 @@
-#!/usr/bin/bash
+#!/usr/bin/env zsh
 
 workdir='/home/bubo/code/dot-files/'
 
 while read line; do
-    cp "$line" "$workdir"
+    if [[ -f ${line##*/} ]]; then
+        cmp -s ${line##*/} $line || cp $line $workdir
+    else
+        cp $line $workdir
+    fi 
 done < "$workdir"/files-monitored
+
