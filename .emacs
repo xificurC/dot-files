@@ -65,6 +65,8 @@
 (global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
 (global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
 (require 'evil-visualstar) ;; v text and search with * and #
+(add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
+(add-hook 'scheme-mode-hook 'evil-paredit-mode)
 ;; better default states for some modes
 (require 'cl)
 (loop for (mode . state) in '((inferior-emacs-lisp-mode . emacs)
@@ -84,6 +86,8 @@
                               (dired-mode . emacs)
                               (wdired-mode . normal))
       do (evil-set-initial-state mode state))
+(define-key evil-insert-state-map (kbd "C-y") 'yank)
+(define-key evil-insert-state-map (kbd "C-k") 'kill-line)
 
 ;; expand region
 (require 'expand-region)
@@ -107,8 +111,22 @@
 (define-key evil-normal-state-map (kbd "Q") 'align-regexp)
 
 ;; auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
+
+;; ghc
+(require 'ghc)
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+
+;; (require 'hs-lint)
+
+;; company mode
+(add-hook 'after-init-hook 'global-company-mode)
+(require 'company)
+(add-to-list 'company-backends 'company-ghc)
+(evil-leader/set-key "h" 'company-ghc-complete-by-hoogle)
 
 ;; ido, not helm pleae
 (require 'ido)
@@ -135,15 +153,15 @@
 (require 'magit)
 
 ;; smartparens
-(require 'smartparens-config)
-(smartparens-global-mode t)
-(smartparens-global-strict-mode t) ;; strict as paredit
-(setq sp-autoskip-closing-pair 'always) ;; skip to end as paredit
-(global-set-key (kbd "C-;") 'sp-up-sexp) ;; move around in a smart way
+;; (require 'smartparens-config)
+;; (smartparens-global-mode t)
+;; (smartparens-global-strict-mode t) ;; strict as paredit
+;; (setq sp-autoskip-closing-pair 'always) ;; skip to end as paredit
+;; (global-set-key (kbd "C-;") 'sp-up-sexp) ;; move around in a smart way
 
 ;; yasnippet
-(require 'yasnippet)
-(yas-global-mode 1)
+;; (require 'yasnippet)
+;; (yas-global-mode 1)
 
 ;; smex
 (require 'smex)
@@ -156,17 +174,39 @@
 (require 'switch-window)
 (evil-leader/set-key "o" 'switch-window)
 
-;; haskell mode
-(require 'haskell-mode)
+;; haskell-mode
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+(add-to-list 'load-path "/home/bubo/.emacs.d/elpa/structured-haskell-mode/elisp")
+(require 'shm)
+(add-hook 'haskell-mode-hook 'structured-haskell-mode)
+
+;; paredit
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+(add-hook 'geiser-mode-hook           #'enable-paredit-mode)
 
 ;; flycheck
 (require 'flycheck)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (eval-after-load 'flycheck
-  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+  '(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+
+;; flymake
+;; (require 'flymake-easy)
+;; (require 'flymake-racket)
+;; (add-hook 'scheme-mode-hook 'flymake-racket-load)
+;; (evil-leader/set-key "n" 'flymake-goto-next-error)
+;; (evil-leader/set-key "p" 'flymake-goto-prev-error)
+;; (evil-leader/set-key ";" 'flymake-display-err-menu-for-current-line)
+;; (require 'flymake-easy)
+;; (add-hook 'scheme-mode-hook 'flymake-racket-init)
 
 ;; cc mode
 (require 'cc-mode)
